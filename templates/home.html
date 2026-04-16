@@ -1,10 +1,68 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Главная страница{% endblock %}
+{% block title %}Секретные материалы | Главная{% endblock %}
 
 {% block content %}
-    <div class="jumbotron">
-        <h1 class="display-4">Привет, мир!</h1>
-        <p class="lead">Это пример страницы, стилизованной с помощью Bootstrap.</p>
-    </div>
+    <!-- Герой-секция (можно оставить как есть) -->
+    <section class="hero">
+        <h2>Секретные материалы</h2>
+        <p>Агенты ФБР Фокс Малдер и Дана Скалли расследуют необъяснимые дела, связанные с паранормальными явлениями, заговорами правительства и внеземными технологиями.</p>
+        <p style="margin-top: 15px; font-style: italic;">«I Want to Believe»</p>
+    </section>
+
+    <!-- Последние эпизоды -->
+    <div class="section-title">🛸 Последние эпизоды</div>
+    {% if latest_episodes %}
+        <div class="episodes-grid">
+            {% for episode in latest_episodes %}
+                <div class="episode-card">
+                    <div class="episode-title">{{ episode.title }}</div>
+                    <div class="episode-meta">
+                        <span>Сезон {{ episode.season }}</span>
+                        <span>Серия {{ episode.episode_number }}</span>
+                        <span>📅 {{ episode.air_date|date:"d.m.Y" }}</span>
+                    </div>
+                    <div class="episode-desc">{{ episode.short_description|truncatewords:20 }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align: center; color: #8c9b9f;">Эпизоды загружаются из секретного архива ФБР...</p>
+    {% endif %}
+
+    <!-- Новости о сериале -->
+    <div class="section-title">👽 Свежие новости</div>
+    {% if news_items %}
+        <div class="news-grid">
+            {% for news in news_items %}
+                <div class="news-card">
+                    <div class="news-title">{{ news.title }}</div>
+                    <div class="news-date">{{ news.published_at|date:"d E Y" }}</div>
+                    <div class="news-excerpt">{{ news.summary|truncatewords:18 }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align: center;">Пока нет новых улик. Загляните позже.</p>
+    {% endif %}
+
+    <!-- Персонаж дня / Featured -->
+    {% if featured_character %}
+        <div class="section-title">🔍 Персонаж дня</div>
+        <div class="character-card">
+            <div class="character-img">
+                {% if featured_character.image %}
+                    <img src="{{ featured_character.image.url }}" alt="{{ featured_character.name }}">
+                {% else %}
+                    <img src="{% static 'images/default_agent.png' %}" alt="Агент">
+                {% endif %}
+            </div>
+            <div class="character-info">
+                <div class="character-name">{{ featured_character.name }}</div>
+                <div class="character-role">{{ featured_character.role }}</div>
+                <div class="character-bio">{{ featured_character.bio|linebreaksbr|truncatewords:50 }}</div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
