@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Все эпизоды | Секретные материалы{% endblock %}
+
+{% block content %}
+<div class="episodes-header">
+    <h1 class="section-title" style="border-left-color: #8fbc6e;">📺 Все эпизоды</h1>
+    <p class="episodes-subtitle">Полный список серий культового сериала. Истина где-то рядом.</p>
+</div>
+
+<!-- Фильтр по сезонам -->
+<div class="season-filter">
+    <span>Фильтр по сезону:</span>
+    <a href="{% url 'episodes' %}" class="{% if not selected_season %}active-filter{% endif %}">Все</a>
+    {% for season_num in seasons_range %}
+        <a href="{% url 'episodes_by_season' season_num %}" class="{% if selected_season == season_num %}active-filter{% endif %}">
+            {{ season_num }}
+        </a>
+    {% endfor %}
+</div>
+
+<!-- Список эпизодов -->
+{% if episodes %}
+    <div class="episodes-list">
+        {% for episode in episodes %}
+            <div class="episode-item">
+                <div class="episode-number">
+                    Сезон {{ episode.season }}, серия {{ episode.episode_number }}
+                </div>
+                <div class="episode-full-title">
+                    {{ episode.title }}
+                    {% if episode.original_title %}
+                        <span class="original-title">({{ episode.original_title }})</span>
+                    {% endif %}
+                </div>
+                <div class="episode-air-date">📅 {{ episode.air_date|date:"d.m.Y" }}</div>
+                <div class="episode-full-desc">{{ episode.description|default:episode.short_description }}</div>
+                {% if episode.director or episode.writer %}
+                    <div class="episode-credits">
+                        {% if episode.director %}Режиссёр: {{ episode.director }}{% endif %}
+                        {% if episode.writer %} | Сценарий: {{ episode.writer }}{% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if selected_season %}&season={{ selected_season }}{% endif %}">&laquo; Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if selected_season %}&season={{ selected_season }}{% endif %}">Назад</a>
+            {% endif %}
+
+            <span class="current-page">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if selected_season %}&season={{ selected_season }}{% endif %}">Вперёд</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if selected_season %}&season={{ selected_season }}{% endif %}">Последняя &raquo;</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <p class="no-episodes">Эпизоды не найдены. Возможно, файлы засекречены...</p>
+{% endif %}
+
+<style>
+    /* Дополнительные стили для страницы эпизодов */
+    .episodes-subtitle {
+        margin-bottom: 30px;
+        color: #b0c4b5;
+        font-style: italic;
+    }
+    .season-filter {
+        background: #0f141c;
+        padding: 15px 20px;
+        border-radius: 40px;
+        margin-bottom: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+    .season-filter span {
+        font-weight: 600;
+        color: #bfe29c;
+    }
+    .season-filter a {
+        background: #1e2a2f;
+        padding: 6px 14px;
+        border-radius: 30px;
+        text-decoration: none;
+        color: #d1e0e0;
+        transition: 0.2s;
+    }
+    .season-filter a:hover {
+        background: #3f6b4a;
+        color: white;
+    }
+    .active-filter {
+        background: #7fa86a !important;
+        color: #0a0f14 !important;
+        font-weight: bold;
+    }
+    .episodes-list {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+    .episode-item {
+        background: #10161f;
+        border-left: 4px solid #8fbc6e;
+        padding: 20px 25px;
+        border-radius: 16px;
+        transition: 0.2s;
+    }
+    .episode-item:hover {
+        background: #171f2b;
+        transform: translateX(4px);
+    }
+    .episode-number {
+        font-size: 0.8rem;
+        color: #8ba89a;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+    }
+    .episode-full-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #dcf5b0;
+        margin-bottom: 8px;
+    }
+    .original-title {
+        font-size: 0.9rem;
+        font-weight: normal;
+        color: #98b3a3;
+        margin-left: 8px;
+    }
+    .episode-air-date {
+        font-size: 0.8rem;
+        color: #86a38d;
+        margin-bottom: 12px;
+    }
+    .episode-full-desc {
+        color: #cbd5e0;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+    .episode-credits {
+        font-size: 0.75rem;
+        color: #7e968c;
+        border-top: 1px dashed #2d4a3b;
+        padding-top: 10px;
+        margin-top: 8px;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 50px 0 30px;
+        flex-wrap: wrap;
+    }
+    .pagination a, .current-page {
+        background: #1b242c;
+        padding: 8px 16px;
+        border-radius: 30px;
+        text-decoration: none;
+        color: #cde2d4;
+    }
+    .pagination a:hover {
+        background: #4a785a;
+        color: white;
+    }
+    .current-page {
+        background: #2a4a38;
+        font-weight: bold;
+    }
+    .no-episodes {
+        text-align: center;
+        padding: 60px;
+        color: #95aba0;
+    }
+    @media (max-width: 700px) {
+        .episode-full-title {
+            font-size: 1.2rem;
+        }
+        .season-filter a {
+            padding: 4px 10px;
+            font-size: 0.8rem;
+        }
+    }
+</style>
+{% endblock %}
