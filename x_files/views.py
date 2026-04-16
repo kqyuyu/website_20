@@ -7,7 +7,7 @@ from .models import Episode
 
 def home(request):
     context = {
-        'latest_episodes': [],
+        'latest_episodes': Episode.objects.order_by('-air_date')[:6],
         'news_items': [],
         'featured_character': None,
         'current_year': datetime.now().year,
