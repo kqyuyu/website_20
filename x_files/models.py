@@ -7,10 +7,12 @@ class Episode(models.Model):
     season = models.PositiveSmallIntegerField(verbose_name='Сезон')
     episode_number = models.PositiveSmallIntegerField(verbose_name='Номер серии')
     air_date = models.DateField(verbose_name='Дата выхода')
+    rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True, verbose_name='Рейтинг IMDb (0–10)')
     short_description = models.TextField(verbose_name='Краткое описание', blank=True)
     description = models.TextField(verbose_name='Полное описание', blank=True)
     director = models.CharField(max_length=100, blank=True)
     writer = models.CharField(max_length=100, blank=True)
+    is_featured = models.BooleanField(default=False, verbose_name='Показывать на главной')
 
     class Meta:
         ordering = ['season', 'episode_number']
