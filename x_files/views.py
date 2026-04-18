@@ -2,13 +2,13 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from datetime import datetime
 from django.db.models import Max
-from .models import Episode
+from .models import Episode, News
 
 
 def home(request):
     context = {
         'mythology_series': Episode.objects.filter(is_featured=True).order_by('air_date')[:8],
-        'news_items': [],
+        'news_items': News.objects.order_by('-published_at')[:4],
         'featured_character': None,
         'current_year': datetime.now().year,
     }

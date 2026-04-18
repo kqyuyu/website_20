@@ -1,7 +1,10 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Episode(models.Model):
+    """Модель эпизодов сериала «Секретные материалы» (The X-Files)."""
+
     title = models.CharField(max_length=200, verbose_name='Название')
     original_title = models.CharField(max_length=200, blank=True, verbose_name='Оригинальное название')
     season = models.PositiveSmallIntegerField(verbose_name='Сезон')
@@ -26,3 +29,25 @@ class Episode(models.Model):
     def episode_display(self):
         """Форматированный номер серии: S01E02"""
         return f'S{self.season:02d}E{self.episode_number:02d}'
+
+
+class News(models.Model):
+    """Модель новостей о сериале «Секретные материалы»."""
+    title = models.CharField(max_length=200, verbose_name='Заголовок')
+    slug = models.SlugField(max_length=200, unique=True, verbose_name='URL', help_text='Автоматически формируется из заголовка')
+    summary = models.TextField(max_length=500, verbose_name='Краткое содержание', help_text='Отображается на главной странице' )
+    content = models.TextField(verbose_name='Полный текст новости')
+    image = models.ImageField(upload_to='news_images/', blank=True, null=True, verbose_name='Изображение')
+    author = models.CharField(max_length=100, default='Редакция', verbose_name='Автор')
+    published_at = models.DateTimeField(default=timezone.now, verbose_name='Дата публикации' )
+
+    class Meta:
+        ordering = ['-published_at']
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('news_detail', args=[self.slug])
