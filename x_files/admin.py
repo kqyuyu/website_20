@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Episode
+from .models import Episode, News
 
 @admin.register(Episode)
 class EpisodeAdmin(admin.ModelAdmin):
@@ -34,3 +34,21 @@ class EpisodeAdmin(admin.ModelAdmin):
     def unmark_featured(self, request, queryset):
         queryset.update(is_featured=False)
     unmark_featured.short_description = 'Снять отметку "избранное"'
+
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'published_at')
+    list_filter = ('author', 'published_at')
+    search_fields = ('title', 'summary', 'content')
+    prepopulated_fields = {'slug': ('title',)}
+    # list_editable = ('is_published',)
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'summary', 'content', 'image')
+        }),
+        ('Метаданные', {
+            'fields': ('author', 'published_at')
+        }),
+    )
+    # actions = ['publish_news', 'unpublish_news']
