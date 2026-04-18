@@ -5,7 +5,7 @@
     "fields": {
       "name": "Фокс Малдер",
       "status": "Специальный агент ФБР",
-      "photo": ""
+      "photo": "characters/Малдер.jpg"
     }
   },
   {
@@ -14,7 +14,7 @@
     "fields": {
       "name": "Дана Скалли",
       "status": "Специальный агент ФБР",
-      "photo": ""
+      "photo": "characters/Скалли.jpg"
     }
   },
   {
