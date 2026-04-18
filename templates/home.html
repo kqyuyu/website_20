@@ -12,10 +12,10 @@
     </section>
 
     <!-- Последние эпизоды -->
-    <div class="section-title">🛸 Последние эпизоды</div>
-    {% if latest_episodes %}
+    <div class="section-title">🛸 Мифология сериала</div>
+    {% if mythology_series %}
         <div class="episodes-grid">
-            {% for episode in latest_episodes %}
+            {% for episode in mythology_series %}
                 <div class="episode-card">
                     <div class="episode-title">{{ episode.title }}</div>
                     <div class="episode-meta">
