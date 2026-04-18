@@ -1,0 +1,125 @@
+    /* Дополнительные стили для страницы эпизодов */
+    .episodes-subtitle {
+        margin-bottom: 30px;
+        color: #b0c4b5;
+        font-style: italic;
+    }
+    .season-filter {
+        background: #0f141c;
+        padding: 15px 20px;
+        border-radius: 40px;
+        margin-bottom: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+    .season-filter span {
+        font-weight: 600;
+        color: #bfe29c;
+    }
+    .season-filter a {
+        background: #1e2a2f;
+        padding: 6px 14px;
+        border-radius: 30px;
+        text-decoration: none;
+        color: #d1e0e0;
+        transition: 0.2s;
+    }
+    .season-filter a:hover {
+        background: #3f6b4a;
+        color: white;
+    }
+    .active-filter {
+        background: #7fa86a !important;
+        color: #0a0f14 !important;
+        font-weight: bold;
+    }
+    .episodes-list {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+    .episode-item {
+        background: #10161f;
+        border-left: 4px solid #8fbc6e;
+        padding: 20px 25px;
+        border-radius: 16px;
+        transition: 0.2s;
+    }
+    .episode-item:hover {
+        background: #171f2b;
+        transform: translateX(4px);
+    }
+    .episode-number {
+        font-size: 0.8rem;
+        color: #8ba89a;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+    }
+    .episode-full-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #dcf5b0;
+        margin-bottom: 8px;
+    }
+    .original-title {
+        font-family: 'Special Elite', cursive;
+        font-size: 0.9rem;
+        font-weight: normal;
+        color: #98b3a3;
+        margin-left: 8px;
+    }
+    .episode-air-date {
+        font-size: 0.8rem;
+        color: #86a38d;
+        margin-bottom: 12px;
+    }
+    .episode-full-desc {
+        color: #cbd5e0;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+    .episode-credits {
+        font-size: 0.75rem;
+        color: #7e968c;
+        border-top: 1px dashed #2d4a3b;
+        padding-top: 10px;
+        margin-top: 8px;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 50px 0 30px;
+        flex-wrap: wrap;
+    }
+    .pagination a, .current-page {
+        background: #1b242c;
+        padding: 8px 16px;
+        border-radius: 30px;
+        text-decoration: none;
+        color: #cde2d4;
+    }
+    .pagination a:hover {
+        background: #4a785a;
+        color: white;
+    }
+    .current-page {
+        background: #2a4a38;
+        font-weight: bold;
+    }
+    .no-episodes {
+        text-align: center;
+        padding: 60px;
+        color: #95aba0;
+    }
+    @media (max-width: 700px) {
+        .episode-full-title {
+            font-size: 1.2rem;
+        }
+        .season-filter a {
+            padding: 4px 10px;
+            font-size: 0.8rem;
+        }
+    }
