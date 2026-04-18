@@ -21,3 +21,4 @@ urlpatterns = [
     path('', include('x_files.urls')),
     path('admin/', admin.site.urls),
 ]
+

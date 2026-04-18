@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Episode, News
+from django.utils.html import mark_safe
+from .models import Episode, News, Character
 
 @admin.register(Episode)
 class EpisodeAdmin(admin.ModelAdmin):
@@ -52,3 +53,32 @@ class NewsAdmin(admin.ModelAdmin):
         }),
     )
     # actions = ['publish_news', 'unpublish_news']
+
+
+@admin.register(Character)
+class CharacterAdmin(admin.ModelAdmin):
+    # порядок полей в форме
+    fields = ('name', 'photo', 'preview', 'status')
+
+    # превью только для чтения
+    readonly_fields = ('preview',)
+
+    # список в админке
+    list_display = ('name', 'status', 'preview_small')
+
+    # поиск
+    search_fields = ('name',)
+
+    # маленькое превью в списке
+    def preview_small(self, obj):
+        if obj.photo:
+            return mark_safe(f'<img src="{obj.photo.url}" width="50">')
+        return "-"
+    preview_small.short_description = "Фото"
+
+    # большое превью в форме
+    def preview(self, obj):
+        if obj.photo:
+            return mark_safe(f'<img src="{obj.photo.url}" width="150">')
+        return "Нет фото"
+    preview.short_description = "Превью"
