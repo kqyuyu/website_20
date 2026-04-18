@@ -7,7 +7,12 @@
 <div class="episode-detail">
     <div class="detail-header">
         <a href="{% url 'episodes' %}" class="back-link">← Все эпизоды</a>
-        <h1>{{ episode.title }}</h1>
+        <h1>
+            {{ episode.title }}
+            {% if episode.original_title %}
+                <span class="original-title-inline">({{ episode.original_title }})</span>
+            {% endif %}
+        </h1>
         <div class="detail-meta">
             <span>Сезон {{ episode.season }}, серия {{ episode.episode_number }}</span>
             {% if episode.production_code %}
@@ -27,20 +32,10 @@
     {% endif %}
 
     <div class="detail-content">
-        <h2>Оригинальное название</h2>
-        <p class="original-title">{{ episode.original_title|default:"—" }}</p>
-
         <h2>Полное описание</h2>
         <div class="full-description">
             {{ episode.description|linebreaks|default:"Полное описание отсутствует." }}
         </div>
-
-        {% if episode.short_description %}
-            <h2>Краткое описание</h2>
-            <div class="short-description">
-                {{ episode.short_description|linebreaks }}
-            </div>
-        {% endif %}
 
         {% if episode.director or episode.writer %}
             <div class="detail-credits">
@@ -63,6 +58,12 @@
         border-radius: 32px;
         padding: 40px;
         border: 1px solid #2d4a3b;
+    }
+    .original-title-inline {
+        font-size: 1.2rem;
+        font-weight: normal;
+        color: #98b3a3;
+        margin-left: 10px;
     }
     .back-link {
         display: inline-block;
