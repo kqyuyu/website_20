@@ -21,3 +21,8 @@ class Episode(models.Model):
 
     def __str__(self):
         return f'{self.season}x{self.episode_number:02d} — {self.title}'
+
+    @property
+    def episode_display(self):
+        """Форматированный номер серии: S01E02"""
+        return f'S{self.season:02d}E{self.episode_number:02d}'
