@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from datetime import datetime
 from django.db.models import Max
-from .models import Episode, News
+from .models import Episode, News, Character
 
 
 def home(request):
@@ -61,3 +61,8 @@ def episode_detail(request, season, episode_number):
         'episode': episode,
     }
     return render(request, 'episode_detail.html', context)
+
+
+def characters_list(request):
+    characters = Character.objects.all()
+    return render(request, 'character_list.html', {'characters': characters})

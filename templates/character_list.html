@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="characters-page">
+    <h1>Персонажи</h1>
+    
+    <div class="characters-grid">
+        {% for character in characters %}
+        <div class="character-card">
+            <h3>{{ character.name }}</h3>
+            {% if character.status %}
+                <p class="status">{{ character.status }}</p>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>Персонажи не найдены.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

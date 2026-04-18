@@ -51,3 +51,12 @@ class News(models.Model):
 
     def get_absolute_url(self):
         return reverse('news_detail', args=[self.slug])
+
+
+class Character(models.Model):
+    name = models.CharField(max_length=100)
+    status = models.CharField(max_length=100, blank=True)
+    photo = models.ImageField(upload_to='characters/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
