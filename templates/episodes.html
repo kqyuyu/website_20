@@ -29,13 +29,15 @@
                     Сезон {{ episode.season }}, серия {{ episode.episode_number }}
                 </div>
                 <div class="episode-full-title">
-                    {{ episode.title }}
+                    <a href="{% url 'episode_detail' season=episode.season episode_number=episode.episode_number %}" style="text-decoration: none; color: inherit;">
+                        {{ episode.title }}
+                    </a>
                     {% if episode.original_title %}
                         <span class="original-title">({{ episode.original_title }})</span>
                     {% endif %}
+                    <span class="episode-air-date">📅 {{ episode.air_date|date:"d.m.Y" }}</span>
                 </div>
-                <div class="episode-air-date">📅 {{ episode.air_date|date:"d.m.Y" }}</div>
-                <div class="episode-full-desc">{{ episode.description|default:episode.short_description }}</div>
+                <div class="episode-full-desc">{{ episode.short_description }}</div>
                 {% if episode.director or episode.writer %}
                     <div class="episode-credits">
                         {% if episode.director %}Режиссёр: {{ episode.director }}{% endif %}

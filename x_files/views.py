@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from datetime import datetime
 from django.db.models import Max
@@ -6,6 +6,7 @@ from .models import Episode, News
 
 
 def home(request):
+    """Домашняя страница."""
     context = {
         'mythology_series': Episode.objects.filter(is_featured=True).order_by('air_date')[:8],
         'news_items': News.objects.order_by('-published_at')[:4],
@@ -16,9 +17,9 @@ def home(request):
 
 
 def episodes_list(request, season=None):
-    """
-    Отображает список эпизодов.
-    Если передан season, фильтрует по сезону.
+    """Список эпизодов.
+
+    :param season: Фильтрует по сезону.
     """
     episodes_qs = Episode.objects.all().order_by('season', 'episode_number')
 
@@ -42,3 +43,21 @@ def episodes_list(request, season=None):
         'selected_season': season,  # для подсветки активного фильтра
     }
     return render(request, 'episodes.html', context)
+
+
+def episode_detail(request, season, episode_number):
+    """Эпизод.
+
+    URL: /episodes/season/<season>/episode/<episode_number>/
+    :param season: Сезон.
+    :param episode_number: Номер эпизода.
+    """
+    episode = get_object_or_404(
+        Episode,
+        season=season,
+        episode_number=episode_number
+    )
+    context = {
+        'episode': episode,
+    }
+    return render(request, 'episode_detail.html', context)
