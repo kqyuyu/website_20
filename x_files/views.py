@@ -67,6 +67,7 @@ def characters_list(request):
     characters = Character.objects.all()
     return render(request, 'character_list.html', {'characters': characters})
 
+
 def mythology_list(request):
     episodes = Episode.objects.filter(is_featured=True)
     return render(request, 'mythology.html', {'episodes': episodes})
