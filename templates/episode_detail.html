@@ -20,7 +20,14 @@
             {% endif %}
             <span>📅 {{ episode.air_date|date:"d.m.Y" }}</span>
             {% if episode.rating %}
-                <span>⭐ {{ episode.rating }} / 10 (IMDb)</span>
+                <span>
+                    ⭐ {{ episode.rating }}
+                    {% if episode.imdb_url %}
+                        (<a href="{{ episode.imdb_url|default:'#' }}" target="_blank" rel="noopener noreferrer">IMDb</a>)
+                    {% else %}
+                        (IMDb)
+                    {% endif %}
+                </span>
             {% endif %}
         </div>
     </div>
@@ -32,7 +39,6 @@
     {% endif %}
 
     <div class="detail-content">
-        <h2>Полное описание</h2>
         <div class="full-description">
             {{ episode.description|linebreaks|default:"Полное описание отсутствует." }}
         </div>

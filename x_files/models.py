@@ -11,6 +11,7 @@ class Episode(models.Model):
     episode_number = models.PositiveSmallIntegerField(verbose_name='Номер серии')
     air_date = models.DateField(verbose_name='Дата выхода')
     rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True, verbose_name='Рейтинг IMDb (0–10)')
+    imdb_url = models.URLField(max_length=100, blank=True, null=True, verbose_name='Ссылка на IMDb')
     short_description = models.TextField(verbose_name='Краткое описание', blank=True)
     description = models.TextField(verbose_name='Полное описание', blank=True)
     director = models.CharField(max_length=100, blank=True)
