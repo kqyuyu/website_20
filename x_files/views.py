@@ -8,7 +8,7 @@ from .models import Episode, News, Character
 def home(request):
     """Домашняя страница."""
     context = {
-        'mythology_series': Episode.objects.filter(is_featured=True).order_by('air_date')[:8],
+        'mythology_series': Episode.objects.order_by('-rating')[:8],
         'news_items': News.objects.order_by('-published_at')[:4],
         'featured_character': None,
         'current_year': datetime.now().year,

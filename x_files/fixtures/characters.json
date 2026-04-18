@@ -22,8 +22,8 @@
     "pk": 3,
     "fields": {
       "name": "Уолтер Скиннер",
-      "status": "Директор ФБР",
-      "photo": "characters/4kvspw7v.webp"
+      "status": "Заместитель директора ФБР",
+      "photo": "characters/Скиннер.jpg"
     }
   }
 ]
