@@ -65,4 +65,25 @@
             </div>
         </div>
     {% endif %}
+    <!-- ===== ФОНОВАЯ МУЗЫКА (только на главной) ===== -->
+    <audio id="bg-music" src="{% static 'music/Mark%20Snow%20-%20X-Files%20Theme.mp3' %}" loop muted autoplay></audio>
+    <script>
+        const audio = document.getElementById('bg-music');
+        let musicStarted = false;
+
+        function enableMusic() {
+            if (!musicStarted) {
+                audio.muted = false;
+                audio.play().then(() => {
+                    musicStarted = true;
+                    console.log('Музыка включена');
+                }).catch(e => console.log('Ошибка:', e));
+            }
+        }
+
+        // Включаем музыку при любом клике по странице
+        document.body.addEventListener('click', enableMusic);
+        // Также можно включить при любом касании на мобильных
+        document.body.addEventListener('touchstart', enableMusic);
+    </script>
 {% endblock %}
