@@ -25,9 +25,10 @@ SECRET_KEY = 'django-insecure-ti9q2(&vbb74gs$albhxo2uou6yt_=1cut70%!$7fdleoywq2i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sorryImpoor.pythonanywhere.com']
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -118,10 +119,3 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-# Дополнительные папки с вашими статическими файлами (опционально)
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # если у вас есть общая папка static в корне проекта
-]
