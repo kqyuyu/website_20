@@ -1,0 +1,132 @@
+<!-- templates/news.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Новости - Секретные материалы{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- ГЕРОЙ для страницы новостей -->
+    <div class="hero">
+        <h2>Последние новости</h2>
+        <p>Свежие слухи, анонсы и события из мира «Секретных материалов»</p>
+    </div>
+
+    <div class="news-grid">
+        {% for item in news %}
+        <div class="news-card">
+            {% if item.image %}
+            <div class="news-image">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+            </div>
+            {% endif %}
+            <div class="news-content">
+                <div class="news-meta">
+                    <span class="news-date">
+                        <i class="far fa-calendar-alt"></i> {{ item.published_at|date:"d.m.Y" }}
+                    </span>
+                    <span class="news-author">
+                        <i class="far fa-user"></i> {{ item.author }}
+                    </span>
+                </div>
+                <h3 class="news-title">
+                    <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                </h3>
+                <p class="news-excerpt">{{ item.summary|truncatewords:20 }}</p>
+                <a href="{{ item.get_absolute_url }}" class="read-more">Читать далее →</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-news">
+            <p>Новостей пока нет</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ НОВОСТЕЙ */
+    .news-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .news-image {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        margin: -20px -20px 15px -20px;
+        width: calc(100% + 40px);
+        border-radius: 20px 20px 0 0;
+    }
+
+    .news-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .news-card:hover .news-image img {
+        transform: scale(1.05);
+    }
+
+    .news-meta {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 12px;
+        font-size: 0.75rem;
+        color: #7e9a86;
+    }
+
+    .news-meta i {
+        margin-right: 4px;
+    }
+
+    .news-title a {
+        color: #d9f0c1;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .news-title a:hover {
+        color: #b3ff9b;
+        text-shadow: 0 0 4px #5f9e4e;
+    }
+
+    .read-more {
+        display: inline-block;
+        margin-top: 15px;
+        color: #8fbc6e;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: color 0.2s, transform 0.2s;
+    }
+
+    .read-more:hover {
+        color: #b3ff9b;
+        transform: translateX(5px);
+    }
+
+    .no-news {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px;
+        background: #11161f;
+        border-radius: 20px;
+        color: #7a8e8b;
+    }
+
+    /* Адаптация под базу */
+    @media (min-width: 700px) {
+        .news-card {
+            min-height: 480px;
+        }
+    }
+</style>
+
+<!-- FontAwesome для иконок -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}

@@ -9,8 +9,9 @@ urlpatterns = [
     path('episodes/season/<int:season>/', views.episodes_list, name='episodes_by_season'),
     path('episodes/season/<int:season>/episode/<int:episode_number>/', views.episode_detail, name='episode_detail'),
     path('characters/', views.characters_list, name='characters'),
-    path('news/', views.home, name='news'),
-    path('gallery/', views.home, name='gallery'),
+    path('news/', views.news_list, name='news'),
+    path('news/<slug:slug>/', views.news_detail, name='news_detail'),
+    path('gallery/', views.gallery, name='gallery'),
     path('mythology/', views.mythology_list, name='mythology'),
 ]
 

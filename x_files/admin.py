@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
-from .models import Episode, News, Character
+from .models import *
 
 @admin.register(Episode)
 class EpisodeAdmin(admin.ModelAdmin):
@@ -82,3 +82,11 @@ class CharacterAdmin(admin.ModelAdmin):
             return mark_safe(f'<img src="{obj.photo.url}" width="150">')
         return "Нет фото"
     preview.short_description = "Превью"
+
+@admin.register(GalleryImage)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'created_at', 'is_active', 'order']
+    list_editable = ['order', 'is_active']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title', 'description']
+    readonly_fields = ['created_at']

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 
 
 class Episode(models.Model):
@@ -61,3 +62,23 @@ class Character(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class GalleryImage(models.Model):
+    title = models.CharField('Название', max_length=200)
+    image = models.ImageField('Изображение', upload_to='gallery/%Y/%m/')
+    description = models.TextField('Описание', blank=True, null=True)
+    created_at = models.DateTimeField('Дата добавления', auto_now_add=True)
+    order = models.IntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Активно', default=True)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Галерея'
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('gallery_detail', args=[str(self.id)])

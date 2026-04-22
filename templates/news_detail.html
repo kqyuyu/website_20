@@ -1,0 +1,123 @@
+<!-- templates/news_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ news_item.title }} - Секретные материалы{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="news-detail">
+        <a href="{% url 'news' %}" class="back-link">← Назад к новостям</a>
+
+        <div class="detail-header">
+            <h1 class="detail-title">{{ news_item.title }}</h1>
+            <div class="detail-meta">
+                <span><i class="far fa-calendar-alt"></i> {{ news_item.published_at|date:"d.m.Y" }}</span>
+                <span><i class="far fa-user"></i> {{ news_item.author }}</span>
+            </div>
+        </div>
+
+        {% if news_item.image %}
+        <div class="detail-image">
+            <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}">
+        </div>
+        {% endif %}
+
+        <div class="detail-content">
+            {{ news_item.content|linebreaks }}
+        </div>
+    </div>
+</div>
+
+<style>
+    .news-detail {
+        background: #11161f;
+        border-radius: 20px;
+        padding: 40px;
+        margin: 30px 0;
+        border: 1px solid #2d3e3c;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 30px;
+        color: #8fbc6e;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+    }
+
+    .back-link:hover {
+        color: #b3ff9b;
+    }
+
+    .detail-header {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #2d3e3c;
+        padding-bottom: 20px;
+    }
+
+    .detail-title {
+        font-size: 2.2rem;
+        font-family: 'Special Elite', cursive;
+        color: #caf59e;
+        margin-bottom: 15px;
+    }
+
+    .detail-meta {
+        display: flex;
+        gap: 20px;
+        font-size: 0.85rem;
+        color: #7e9a86;
+    }
+
+    .detail-meta i {
+        margin-right: 6px;
+    }
+
+    .detail-image {
+        margin: 30px 0;
+        text-align: center;
+    }
+
+    .detail-image img {
+        max-width: 100%;
+        max-height: 500px;
+        border-radius: 15px;
+        border: 1px solid #3c584a;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .detail-content {
+        color: #bac8cc;
+        line-height: 1.8;
+        font-size: 1.05rem;
+    }
+
+    .detail-content p {
+        margin-bottom: 20px;
+    }
+
+    .detail-footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #2d3e3c;
+        text-align: center;
+    }
+
+    @media (max-width: 700px) {
+        .news-detail {
+            padding: 20px;
+        }
+
+        .detail-title {
+            font-size: 1.5rem;
+        }
+
+        .detail-meta {
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+</style>
+{% endblock %}

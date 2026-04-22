@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.views.generic import ListView
 from datetime import datetime
 from django.db.models import Max
-from .models import Episode, News, Character
+from .models import Episode, News, Character, GalleryImage
 
 
 def home(request):
@@ -71,3 +72,15 @@ def characters_list(request):
 def mythology_list(request):
     episodes = Episode.objects.filter(is_featured=True)
     return render(request, 'mythology.html', {'episodes': episodes})
+
+def gallery(request):
+    images = GalleryImage.objects.filter(is_active=True).order_by('order', '-created_at')
+    return render(request, 'gallery.html', {'images': images})
+
+def news_list(request):
+    news = News.objects.all().order_by('-published_at')
+    return render(request, 'news.html', {'news': news})
+
+def news_detail(request, slug):
+    news_item = get_object_or_404(News, slug=slug)
+    return render(request, 'news_detail.html', {'news_item': news_item})
