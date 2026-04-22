@@ -10,26 +10,46 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Загружаем переменные окружения из файла .env (для разработки)
+# Установите python-dotenv: pip install python-dotenv
+from dotenv import load_dotenv
+load_dotenv()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+ENVIRONMENT = os.getenv('DJANGO_ENV', 'development')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ti9q2(&vbb74gs$albhxo2uou6yt_=1cut70%!$7fdleoywq2i'
+# Базовые настройки, общие для всех сред
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("DJANGO_SECRET_KEY must be set")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# Настройки для разработки (тестовый сервер)
+if ENVIRONMENT == 'development':
+    DEBUG = True
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    # Дополнительно: удобная отладка, статика через runserver
+    STATICFILES_DIRS = [BASE_DIR / 'static']
 
-ALLOWED_HOSTS = ['sorryImpoor.pythonanywhere.com']
+# Настройки для продакшена (PythonAnywhere)
+elif ENVIRONMENT == 'production':
+    DEBUG = False
+    ALLOWED_HOSTS = ['sorryImpoor.pythonanywhere.com']
+    # Безопасность: HTTPS, куки и т.д. (обязательно!)
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 год
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # Статика и медиа
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -115,7 +135,3 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
